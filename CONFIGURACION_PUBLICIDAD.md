@@ -1,5 +1,54 @@
 # 💰 Configuración de Publicidad del Desarrollador
 
+## ⚠️ IMPORTANTE: Autorización de Dominio
+
+**Antes de pegar tu código publicitario**, debes autorizar el dominio en tu proveedor de anuncios:
+
+### 🌐 Dominio a Autorizar:
+```
+omm2022.github.io
+```
+
+### 📋 Plataformas que REQUIEREN Autorización:
+
+#### ✅ **Google AdSense** (OBLIGATORIO)
+1. Ve a tu cuenta de AdSense
+2. Navega a: **Sitios** → **Administrar sitios**
+3. Haz clic en **"Agregar sitio"**
+4. Ingresa: `omm2022.github.io`
+5. Espera la aprobación (puede tardar 24-48 horas)
+6. ⚠️ **Sin esto, los anuncios NO se mostrarán**
+
+#### ✅ **A-Ads** (OBLIGATORIO)
+1. Inicia sesión en [a-ads.com](https://a-ads.com)
+2. Ve a **"Ad Units"** → **"New Ad Unit"**
+3. En "Website URL" ingresa: `https://omm2022.github.io/regalias-artisticas/`
+4. Configura el tamaño y tipo de anuncio
+5. Copia el código generado para ese sitio específico
+
+#### ✅ **Media.net** (OBLIGATORIO)
+1. Ve a tu panel de Media.net
+2. Navega a **"Setup"** → **"Add Site"**
+3. Ingresa: `omm2022.github.io`
+4. Espera aprobación del sitio
+5. Solo después podrás generar códigos de anuncios
+
+#### ⚠️ **Adsterra** (Recomendado)
+- Algunos formatos requieren pre-aprobación
+- Agrega el sitio en: **"Sites"** → **"Add Site"**
+- Ingresa: `omm2022.github.io`
+
+#### ⚠️ **Ezoic** (OBLIGATORIO)
+1. Agrega el sitio en tu dashboard de Ezoic
+2. Completa la integración DNS o CloudFlare
+3. Espera aprobación completa
+
+#### ⚠️ **Coinzilla/Bitmedia** (Variable)
+- Depende del tipo de campaña
+- Recomendado: Agregar sitio en configuración
+
+---
+
 ## 📍 Ubicación de la Configuración
 
 Abre el archivo `index.html` y busca la sección de configuración al inicio del script (línea ~320):

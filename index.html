@@ -10,6 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Regalías Directas - Crea tu Tarjeta Musical</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -23,6 +24,61 @@
             min-height: 100vh;
             padding: 20px;
             overflow-x: hidden; /* Evita scroll horizontal */
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        .dark-mode .card {
+            background: #0f3460;
+            color: #e0e0e0;
+        }
+
+        .dark-mode .info-box {
+            background: #1a1a2e;
+            border-left-color: #667eea;
+        }
+
+        .dark-mode .info-box h3 {
+            color: #667eea;
+        }
+
+        .dark-mode .info-box p {
+            color: #b0b0b0;
+        }
+
+        .dark-mode input,
+        .dark-mode textarea,
+        .dark-mode select {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            border-color: #667eea;
+        }
+
+        .dark-mode label {
+            color: #e0e0e0;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(180deg);
         }
 
         .container {
@@ -238,6 +294,41 @@
             justify-content: center;
         }
 
+        .social-share {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .social-share button {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+
+        .download-image-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            margin-top: 10px;
+        }
+
+        .view-counter {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.9em;
+            backdrop-filter: blur(10px);
+        }
+
+        .view-counter strong {
+            font-size: 1.2em;
+            color: #FFD700;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             body {
@@ -401,6 +492,9 @@
     </style>
 </head>
 <body>
+    <!-- Botón de Cambio de Tema -->
+    <button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">🌓</button>
+
     <div class="container">
         <h1>🎵 Regalías Directas</h1>
 
@@ -410,8 +504,9 @@
                 <h3>📝 Instrucciones</h3>
                 <p>1. Sube tu canción a <strong>Spotify, SoundCloud, YouTube</strong> o cualquier servicio y copia el enlace</p>
                 <p>2. Rellena los datos de tu canción</p>
-                <p>3. Elige tu plataforma publicitaria y pega el código de inserción para monetizar</p>
-                <p>4. Genera tu tarjeta y comparte el QR</p>
+                <p>3. <strong style="color: #e74c3c;">⚠️ IMPORTANTE:</strong> Autoriza el dominio <code>omm2022.github.io</code> en tu proveedor de anuncios ANTES de pegar el código</p>
+                <p>4. Pega tu código publicitario para monetizar</p>
+                <p>5. Genera tu tarjeta y comparte el QR</p>
                 <p><strong>💡 Plataformas de audio compatibles:</strong></p>
                 <p style="margin-left: 15px;">
                     • <strong>Spotify:</strong> Copia el enlace de tu canción<br>
@@ -419,12 +514,12 @@
                     • <strong>YouTube:</strong> Copia el enlace del video<br>
                     • <strong>MP3 directo:</strong> URL directa a archivo .mp3
                 </p>
-                <p><strong>💰 Plataformas publicitarias recomendadas:</strong></p>
+                <p><strong>💰 Configuración de anuncios (Lee esto primero):</strong></p>
                 <p style="margin-left: 15px;">
-                    • <strong>Google AdSense:</strong> Estándar, alta monetización<br>
-                    • <strong>A-Ads:</strong> Pago en Bitcoin, sin registro previo<br>
-                    • <strong>Adsterra:</strong> Alternativa con buenos CPMs<br>
-                    • <strong>Coinzilla/Bitmedia:</strong> Para audiencia crypto
+                    • <strong>Google AdSense:</strong> Ve a "Sitios" → Agregar <code>omm2022.github.io</code> → Espera aprobación<br>
+                    • <strong>A-Ads:</strong> Crea zona publicitaria para <code>https://omm2022.github.io/regalias-artisticas/</code><br>
+                    • <strong>Media.net:</strong> Agrega el sitio en "Setup" antes de generar código<br>
+                    • <strong>Otras:</strong> Consulta su panel de configuración de sitios permitidos
                 </p>
             </div>
 
@@ -470,10 +565,12 @@
                     <label id="adsCodeLabel">💰 Código de Inserción Publicitario (Opcional)</label>
                     <textarea id="adsCode" placeholder='Pega aquí el código de tu plataforma publicitaria (ej: <script>...</script> o <div>...</div>)'></textarea>
                     <small id="adsHint" style="color: #666; display: block; margin-top: 5px;">
-                        ℹ️ <strong>Google AdSense:</strong> Pega tu código de anuncio completo<br>
-                        ℹ️ <strong>A-Ads:</strong> Pega el código HTML del banner<br>
-                        ℹ️ <strong>Adsterra:</strong> Pega el código de zona publicitaria<br>
-                        ℹ️ <strong>Otras:</strong> Pega el código que te proporcione tu plataforma
+                        ⚠️ <strong style="color: #e74c3c;">IMPORTANTE:</strong> Debes autorizar el dominio <code>omm2022.github.io</code> en tu proveedor de anuncios primero<br>
+                        <br>
+                        ℹ️ <strong>Google AdSense:</strong> Ve a Sitios → Administrar sitios → Agregar sitio → <code>omm2022.github.io</code><br>
+                        ℹ️ <strong>A-Ads:</strong> Crea una zona publicitaria asociada a <code>https://omm2022.github.io/regalias-artisticas/</code><br>
+                        ℹ️ <strong>Media.net:</strong> Agrega el sitio en Setup → Add Site antes de pegar el código<br>
+                        ℹ️ <strong>Otras plataformas:</strong> Consulta su documentación sobre autorización de dominios
                     </small>
                 </div>
 
@@ -490,7 +587,19 @@
                 <div class="actions">
                     <button onclick="copyEmbedCode()">📋 Copiar Código HTML</button>
                     <button onclick="downloadQR()">📥 Descargar QR</button>
+                    <button onclick="downloadCardImage()">🖼️ Descargar Imagen</button>
                     <button onclick="reset()">🔄 Crear Nueva</button>
+                </div>
+
+                <div class="social-share">
+                    <button onclick="shareTwitter()">🐦 Twitter</button>
+                    <button onclick="shareFacebook()">📘 Facebook</button>
+                    <button onclick="shareWhatsApp()">💬 WhatsApp</button>
+                    <button onclick="copyShareLink()">🔗 Copiar Link</button>
+                </div>
+
+                <div class="view-counter">
+                    👁️ Esta tarjeta ha sido vista <strong id="viewCount">0</strong> veces
                 </div>
             </div>
 
@@ -536,6 +645,105 @@
         
         let currentAudio = null;
         let cardData = null;
+        let viewCount = 0;
+
+        // Cargar tema guardado
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // Función para cambiar tema
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            console.log('Tema cambiado a:', isDark ? 'oscuro' : 'claro');
+        }
+
+        // Incrementar contador de vistas
+        function incrementViewCount() {
+            const params = new URLSearchParams(window.location.search);
+            const cardId = params.get('id') || 'preview';
+            const key = `views_${cardId}`;
+            
+            viewCount = parseInt(localStorage.getItem(key) || '0') + 1;
+            localStorage.setItem(key, viewCount);
+            
+            const viewCountEl = document.getElementById('viewCount');
+            if (viewCountEl) {
+                viewCountEl.textContent = viewCount;
+            }
+        }
+
+        // Descargar tarjeta como imagen
+        async function downloadCardImage() {
+            try {
+                const cardElement = document.querySelector('.music-card');
+                if (!cardElement) {
+                    alert('No hay tarjeta para descargar');
+                    return;
+                }
+
+                // Usar html2canvas si está disponible, sino usar captura simple
+                if (typeof html2canvas !== 'undefined') {
+                    const canvas = await html2canvas(cardElement, {
+                        backgroundColor: null,
+                        scale: 2
+                    });
+                    
+                    const link = document.createElement('a');
+                    link.download = `${cardData.songName}-tarjeta.png`;
+                    link.href = canvas.toDataURL();
+                    link.click();
+                } else {
+                    alert('Para descargar como imagen, necesitas la librería html2canvas. Por ahora, puedes hacer captura de pantalla.');
+                }
+            } catch (error) {
+                console.error('Error al descargar imagen:', error);
+                alert('Error al generar imagen. Puedes hacer captura de pantalla de la tarjeta.');
+            }
+        }
+
+        // Compartir en Twitter
+        function shareTwitter() {
+            const url = generateCardUrl();
+            const text = `🎵 ${cardData.songName} - ${cardData.artist}\n¡Escucha mi música!`;
+            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+            window.open(twitterUrl, '_blank');
+        }
+
+        // Compartir en Facebook
+        function shareFacebook() {
+            const url = generateCardUrl();
+            const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+            window.open(facebookUrl, '_blank');
+        }
+
+        // Compartir en WhatsApp
+        function shareWhatsApp() {
+            const url = generateCardUrl();
+            const text = `🎵 ${cardData.songName} - ${cardData.artist}\n¡Escucha mi música!\n${url}`;
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Copiar link para compartir
+        function copyShareLink() {
+            const url = generateCardUrl();
+            navigator.clipboard.writeText(url).then(() => {
+                showSuccess('¡Link copiado al portapapeles!');
+            }).catch(err => {
+                alert('Error al copiar: ' + err);
+            });
+        }
+
+        // Actualizar showSuccess para mensajes personalizados
+        function showSuccess(message = '✅ ¡Código copiado al portapapeles!') {
+            const msg = document.getElementById('successMessage');
+            msg.textContent = message;
+            msg.classList.remove('hidden');
+            setTimeout(() => msg.classList.add('hidden'), 3000);
+        }
 
         // Actualizar hints según la plataforma seleccionada
         document.getElementById('adPlatform').addEventListener('change', function() {
@@ -712,7 +920,11 @@
         }
 
         function generateCardUrl() {
+            // Generar ID único para esta tarjeta
+            const cardId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+            
             const params = new URLSearchParams({
+                id: cardId,
                 s: cardData.songName,
                 a: cardData.artist,
                 d: cardData.description || '',
@@ -745,6 +957,18 @@
         <div style="background: rgba(0,0,0,0.1); border-radius: 8px; padding: 10px; margin-top: 15px; text-align: center; font-size: 0.85em; border: 1px solid rgba(255,255,255,0.2);">
             ${DEVELOPER_AD_CODE}
         </div>`;
+
+            const viewCounterCode = `
+        <div style="background: rgba(255,255,255,0.2); padding: 10px 15px; border-radius: 8px; text-align: center; margin-top: 10px; font-size: 0.9em;">
+            👁️ Vistas: <strong id="viewCount" style="font-size: 1.2em; color: #FFD700;">0</strong>
+        </div>
+        <script>
+            const cardId = new URLSearchParams(window.location.search).get('id') || 'preview';
+            const key = 'views_' + cardId;
+            let views = parseInt(localStorage.getItem(key) || '0') + 1;
+            localStorage.setItem(key, views);
+            document.getElementById('viewCount').textContent = views;
+        <\/script>`;
             
             return `<!DOCTYPE html>
 <html lang="es">
@@ -773,6 +997,7 @@
             ${cardData.adsCode || '<div style="color: rgba(255,255,255,0.7); font-style: italic;">💰 Espacio publicitario</div>'}
         </div>
         ${devAdCode}
+        ${viewCounterCode}
     </div>
 </body>
 </html>`;
@@ -849,6 +1074,9 @@
                 document.querySelector('.qr-container').style.display = 'none';
                 document.querySelector('.actions').style.display = 'none';
                 generateCard();
+                
+                // Incrementar contador de vistas
+                incrementViewCount();
             }
         });
     </script>
