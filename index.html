@@ -1593,10 +1593,37 @@
 
         function closeAdModalOnBackdrop(event) {
             // Cerrar solo si se hace clic en el fondo oscuro, no en el contenido
-            if (event.target.id === 'adModal') {
+            if (event.target.id === 'adModal' || event.target.id === 'globalAdModal') {
                 closeAdModal();
+                closeGlobalAdModal();
             }
         }
+
+        // Funciones para el modal global
+        function openGlobalAdModal() {
+            const modal = document.getElementById('globalAdModal');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeGlobalAdModal() {
+            const modal = document.getElementById('globalAdModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Mostrar modal global automáticamente después de 5 segundos en cualquier pestaña
+        let globalAdModalShown = false;
+        setTimeout(() => {
+            if (!globalAdModalShown) {
+                openGlobalAdModal();
+                globalAdModalShown = true;
+            }
+        }, 5000);
 
         // Función para cambiar entre pestañas
         function switchTab(tabName) {
@@ -1618,6 +1645,14 @@
             
             // Scroll al inicio
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Mostrar modal global después de cambiar de pestaña (opcional)
+            // Comentado para que solo aparezca una vez al cargar
+            /*
+            setTimeout(() => {
+                openGlobalAdModal();
+            }, 3000);
+            */
         }
 
         // Incrementar contador de vistas
@@ -2158,6 +2193,24 @@
             }
         });
     </script>
+
+    <!-- Modal Global de Anuncios (se muestra en todas las pestañas) -->
+    <div id="globalAdModal" class="ad-modal" onclick="closeAdModalOnBackdrop(event)">
+        <div class="ad-modal-content">
+            <div class="ad-modal-header">
+                <h3>💰 Mensaje Patrocinado</h3>
+                <button class="ad-modal-close" onclick="closeGlobalAdModal()">&times;</button>
+            </div>
+            <div class="ad-modal-body">
+                <!-- Anuncio A-Ads del desarrollador -->
+                <iframe data-aa='2416691' src='//acceptable.a-ads.com/2416691/?size=Adaptive'
+                    style='border:0; padding:0; width:100%; max-width:468px; height:auto; min-height:60px; overflow:hidden; background-color: transparent; display: block; margin: 0 auto;'></iframe>
+            </div>
+            <div class="ad-modal-footer">
+                Apoya este proyecto viendo este anuncio ❤️
+            </div>
+        </div>
+    </div>
 
     <!-- Footer de Copyright -->
     <footer style="text-align: center; padding: 30px 20px; margin-top: 50px; background: rgba(0,0,0,0.1); border-top: 1px solid rgba(255,255,255,0.1);">
