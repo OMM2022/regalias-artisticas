@@ -1,51 +1,26 @@
 # 💰 Configuración de Publicidad del Desarrollador
 
-## ⚠️ IMPORTANTE: Autorización de Dominio
+## ⚠️ IMPORTANTE: Plataformas Compatibles
 
-**Antes de pegar tu código publicitario**, debes autorizar el dominio en tu proveedor de anuncios:
+**Esta aplicación solo soporta plataformas publicitarias que NO requieren verificación de dominio.**
 
-### 🌐 Dominio a Autorizar:
-```
-omm2022.github.io
-```
+### ✅ **Plataformas que FUNCIONAN:**
 
-### 📋 Plataformas que REQUIEREN Autorización:
+Las siguientes plataformas permiten que tu código funcione directamente sin necesidad de verificar el dominio `omm2022.github.io`:
 
-#### ✅ **Google AdSense** (OBLIGATORIO)
-1. Ve a tu cuenta de AdSense
-2. Navega a: **Sitios** → **Administrar sitios**
-3. Haz clic en **"Agregar sitio"**
-4. Ingresa: `omm2022.github.io`
-5. Espera la aprobación (puede tardar 24-48 horas)
-6. ⚠️ **Sin esto, los anuncios NO se mostrarán**
+1. **A-Ads** (Bitcoin) ✅
+2. **Adsterra** ✅
+3. **PropellerAds** ✅
+4. **Coinzilla** (Crypto) ✅
+5. **Bitmedia** (Crypto) ✅
 
-#### ✅ **A-Ads** (OBLIGATORIO)
-1. Inicia sesión en [a-ads.com](https://a-ads.com)
-2. Ve a **"Ad Units"** → **"New Ad Unit"**
-3. En "Website URL" ingresa: `https://omm2022.github.io/regalias-artisticas/`
-4. Configura el tamaño y tipo de anuncio
-5. Copia el código generado para ese sitio específico
+### ❌ **Plataformas que NO FUNCIONAN:**
 
-#### ✅ **Media.net** (OBLIGATORIO)
-1. Ve a tu panel de Media.net
-2. Navega a **"Setup"** → **"Add Site"**
-3. Ingresa: `omm2022.github.io`
-4. Espera aprobación del sitio
-5. Solo después podrás generar códigos de anuncios
+Estas requieren verificar el dominio en su panel y NO son compatibles:
 
-#### ⚠️ **Adsterra** (Recomendado)
-- Algunos formatos requieren pre-aprobación
-- Agrega el sitio en: **"Sites"** → **"Add Site"**
-- Ingresa: `omm2022.github.io`
-
-#### ⚠️ **Ezoic** (OBLIGATORIO)
-1. Agrega el sitio en tu dashboard de Ezoic
-2. Completa la integración DNS o CloudFlare
-3. Espera aprobación completa
-
-#### ⚠️ **Coinzilla/Bitmedia** (Variable)
-- Depende del tipo de campaña
-- Recomendado: Agregar sitio en configuración
+- ❌ Google AdSense
+- ❌ Media.net
+- ❌ Ezoic
 
 ---
 
@@ -65,32 +40,7 @@ const HIDE_DEVELOPER_AD = false;
 
 ## 🎯 Cómo Agregar tu Código Publicitario
 
-### Opción 1: Google AdSense
-
-1. Ve a tu cuenta de Google AdSense
-2. Crea una nueva unidad de anuncio (Display Ad)
-3. Copia el código generado
-4. Pégalo en `DEVELOPER_AD_CODE`:
-
-```javascript
-const DEVELOPER_AD_CODE = `
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXX"
-         crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-XXXXXXX"
-         data-ad-slot="XXXXXXX"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-`;
-```
-
----
-
-### Opción 2: A-Ads (Bitcoin)
+### Opción 1: A-Ads (Bitcoin) ⭐ Recomendado
 
 1. Regístrate en [a-ads.com](https://a-ads.com)
 2. Crea un banner/ad unit
@@ -101,6 +51,48 @@ const DEVELOPER_AD_CODE = `
 const DEVELOPER_AD_CODE = `
     <div data-aa='XXXXXX'></div>
     <script async src='//ad.a-ads.com/XXXXXX.js'></script>
+`;
+```
+
+---
+
+### Opción 2: Adsterra
+
+1. Regístrate en [adsterra.com](https://adsterra.com)
+2. Crea una zona publicitaria (Social Bar o Banner)
+3. Copia el código
+4. Pégalo en `DEVELOPER_AD_CODE`:
+
+```javascript
+const DEVELOPER_AD_CODE = `
+    <script type="text/javascript">
+        atOptions = {
+            'key' : 'XXXXXXXXXXXXXXXXXXXXX',
+            'format' : 'iframe',
+            'height' : 60,
+            'width' : 468,
+            'params' : {}
+        };
+    </script>
+    <script type="text/javascript" src="//www.topcreativeformat.com/XXXXX/invoke.js"></script>
+`;
+```
+
+---
+
+### Opción 3: PropellerAds
+
+1. Regístrate en [propellerads.com](https://propellerads.com)
+2. Crea una zona publicitaria
+3. Copia el código generado:
+
+```javascript
+const DEVELOPER_AD_CODE = `
+    <script type="text/javascript">
+        var uid = 'XXXXXX';
+        var wid = 'XXXXXX';
+    </script>
+    <script type="text/javascript" src="//cdn.propellerads.com/XXXXX.js"></script>
 `;
 ```
 
@@ -185,9 +177,9 @@ La publicidad del desarrollador aparece en:
 ## 💡 Recomendaciones
 
 ### Para Máxima Monetización:
-- Usa **Google AdSense** si tienes cuenta aprobada (mejor CPM)
-- Usa **A-Ads** si quieres pagos en Bitcoin sin KYC
-- Usa **Adsterra** si AdSense te rechaza (más flexible)
+- Usa **A-Ads** si quieres pagos en Bitcoin sin complicaciones (mejor para empezar)
+- Usa **Adsterra** si buscas buen balance entre CPM y facilidad
+- Usa **PropellerAds** para múltiples formatos de anuncios
 
 ### Tamaño Recomendado de Anuncios:
 - Banner horizontal pequeño (468x60)
@@ -195,7 +187,7 @@ La publicidad del desarrollador aparece en:
 - Native ads (se integran mejor visualmente)
 
 ### NO Recomendado:
-- ❌ Popups (mal UX)
+- ❌ Popups excesivos (mal UX)
 - ❌ Anuncios muy grandes (cubren el contenido)
 - ❌ Video ads con autoplay (molestan)
 
@@ -216,10 +208,54 @@ Según estadísticas promedio:
 
 | Plataforma | CPM Estimado | Pago Mínimo | Método de Pago |
 |------------|-------------|-------------|----------------|
-| Google AdSense | $1-5 | $100 | Transferencia |
 | A-Ads | Variable | $1 | Bitcoin |
 | Adsterra | $0.50-3 | $5 | Crypto/PayPal |
+| PropellerAds | $1-4 | $5 | PayPal/Wire |
 | Coinzilla | $1-4 | $50 | Crypto |
+| Bitmedia | $1-3 | $10 | Bitcoin |
+
+---
+
+## ❓ Preguntas Frecuentes
+
+### ¿Por qué no puedo usar Google AdSense?
+AdSense requiere que verifiques el dominio `omm2022.github.io` en tu cuenta, pero ese dominio no es tuyo. Solo funciona con plataformas que no requieren verificación de dominio.
+
+### ¿Los anuncios funcionarán directamente?
+Sí, con A-Ads, Adsterra, PropellerAds, Coinzilla y Bitmedia solo necesitas pegar el código y funcionará de inmediato.
+
+### ¿Los usuarios pueden eliminar mi publicidad?
+No, está integrada en el código de la tarjeta. Solo tú puedes cambiarla editando `index.html`.
+
+### ¿Puedo usar múltiples plataformas publicitarias?
+Sí, puedes combinar varios códigos en `DEVELOPER_AD_CODE`, pero asegúrate de que no viole las políticas de cada plataforma.
+
+### ¿Afecta la velocidad de carga?
+Mínimamente. Los scripts publicitarios se cargan de forma asíncrona.
+
+### ¿Qué pasa si no pongo código publicitario?
+Se mostrará un placeholder de ejemplo. Es mejor poner al menos un código real para monetizar.
+
+## 🧪 Probar la Configuración
+
+1. Guarda el archivo `index.html` después de pegar tu código
+2. Recarga la página en el navegador (Ctrl + F5)
+3. Crea una tarjeta de prueba
+4. Verifica que tu anuncio aparezca al final de la tarjeta
+
+---
+
+## 📈 Monetización Esperada
+
+Según estadísticas promedio:
+
+| Plataforma | CPM Estimado | Pago Mínimo | Método de Pago |
+|------------|-------------|-------------|----------------|
+| A-Ads | Variable | $1 | Bitcoin |
+| Adsterra | $0.50-3 | $5 | Crypto/PayPal |
+| PropellerAds | $1-4 | $5 | PayPal/Wire |
+| Coinzilla | $1-4 | $50 | Crypto |
+| Bitmedia | $1-3 | $10 | Bitcoin |
 
 ---
 
@@ -244,16 +280,8 @@ Se mostrará un placeholder de ejemplo. Es mejor poner al menos un código real 
 ```javascript
 // ⚙️ CONFIGURACIÓN DEL DESARROLLADOR
 const DEVELOPER_AD_CODE = `
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1234567890"
-         crossorigin="anonymous"></script>
-    <ins class="adsbygoogle"
-         style="display:block; max-height: 100px;"
-         data-ad-client="ca-pub-1234567890"
-         data-ad-slot="9876543210"
-         data-ad-format="horizontal"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    <div data-aa='2416691'></div>
+    <script async src='//ad.a-ads.com/2416691.js'></script>
 `;
 const HIDE_DEVELOPER_AD = false;
 ```

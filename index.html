@@ -513,9 +513,8 @@
                 <h3>📝 Instrucciones</h3>
                 <p>1. Sube tu canción a <strong>Spotify, SoundCloud, YouTube</strong> o cualquier servicio y copia el enlace</p>
                 <p>2. Rellena los datos de tu canción</p>
-                <p>3. <strong style="color: #e74c3c;">⚠️ IMPORTANTE:</strong> Autoriza el dominio <code>omm2022.github.io</code> en tu proveedor de anuncios ANTES de pegar el código</p>
-                <p>4. Pega tu código publicitario para monetizar</p>
-                <p>5. Genera tu tarjeta y comparte el QR</p>
+                <p>3. (Opcional) Elige tu plataforma publicitaria y pega el código para monetizar</p>
+                <p>4. Genera tu tarjeta y comparte el QR</p>
                 <p><strong>💡 Plataformas de audio compatibles:</strong></p>
                 <p style="margin-left: 15px;">
                     • <strong>Spotify:</strong> Copia el enlace de tu canción<br>
@@ -523,12 +522,12 @@
                     • <strong>YouTube:</strong> Copia el enlace del video<br>
                     • <strong>MP3 directo:</strong> URL directa a archivo .mp3
                 </p>
-                <p><strong>💰 Configuración de anuncios (Lee esto primero):</strong></p>
+                <p><strong>💰 Plataformas publicitarias que funcionan directo:</strong></p>
                 <p style="margin-left: 15px;">
-                    • <strong>Google AdSense:</strong> Ve a "Sitios" → Agregar <code>omm2022.github.io</code> → Espera aprobación<br>
-                    • <strong>A-Ads:</strong> Crea zona publicitaria para <code>https://omm2022.github.io/regalias-artisticas/</code><br>
-                    • <strong>Media.net:</strong> Agrega el sitio en "Setup" antes de generar código<br>
-                    • <strong>Otras:</strong> Consulta su panel de configuración de sitios permitidos
+                    • <strong>A-Ads:</strong> Pagos en Bitcoin, sin verificación necesaria<br>
+                    • <strong>Adsterra:</strong> Buenos CPMs, pega tu código y funciona<br>
+                    • <strong>PropellerAds:</strong> Múltiples formatos, setup rápido<br>
+                    • <strong>Coinzilla/Bitmedia:</strong> Red crypto para audiencia blockchain
                 </p>
             </div>
 
@@ -560,11 +559,9 @@
                     <label>💰 Plataforma Publicitaria</label>
                     <select id="adPlatform">
                         <option value="none">Sin publicidad</option>
-                        <option value="adsense">Google AdSense</option>
                         <option value="aads">A-Ads (Bitcoin)</option>
                         <option value="adsterra">Adsterra</option>
-                        <option value="medianet">Media.net</option>
-                        <option value="ezoic">Ezoic</option>
+                        <option value="propellerads">PropellerAds</option>
                         <option value="coinzilla">Coinzilla (Crypto)</option>
                         <option value="bitmedia">Bitmedia (Crypto)</option>
                     </select>
@@ -574,12 +571,12 @@
                     <label id="adsCodeLabel">💰 Código de Inserción Publicitario (Opcional)</label>
                     <textarea id="adsCode" placeholder='Pega aquí el código de tu plataforma publicitaria (ej: <script>...</script> o <div>...</div>)'></textarea>
                     <small id="adsHint" style="color: #666; display: block; margin-top: 5px;">
-                        ⚠️ <strong style="color: #e74c3c;">IMPORTANTE:</strong> Debes autorizar el dominio <code>omm2022.github.io</code> en tu proveedor de anuncios primero<br>
+                        ✅ <strong style="color: #27ae60;">Solo pega el código y funciona!</strong> No necesitas verificar nada<br>
                         <br>
-                        ℹ️ <strong>Google AdSense:</strong> Ve a Sitios → Administrar sitios → Agregar sitio → <code>omm2022.github.io</code><br>
-                        ℹ️ <strong>A-Ads:</strong> Crea una zona publicitaria asociada a <code>https://omm2022.github.io/regalias-artisticas/</code><br>
-                        ℹ️ <strong>Media.net:</strong> Agrega el sitio en Setup → Add Site antes de pegar el código<br>
-                        ℹ️ <strong>Otras plataformas:</strong> Consulta su documentación sobre autorización de dominios
+                        ℹ️ <strong>A-Ads:</strong> Crea una zona publicitaria y pega el código HTML<br>
+                        ℹ️ <strong>Adsterra:</strong> Pega el código de zona publicitaria (Banner/Social Bar/Native)<br>
+                        ℹ️ <strong>PropellerAds:</strong> Pega el código de anuncio generado<br>
+                        ℹ️ <strong>Coinzilla/Bitmedia:</strong> Pega el código del banner crypto
                     </small>
                 </div>
 
@@ -627,22 +624,12 @@
 
         <!-- Enlaces a Plataformas Publicitarias -->
         <div class="card" style="margin-top: 30px; background: rgba(255, 255, 255, 0.95);">
-            <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">💰 Plataformas Publicitarias Recomendadas</h2>
+            <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">💰 Plataformas Publicitarias Compatibles</h2>
             <p style="text-align: center; margin-bottom: 25px; color: #666;">
-                Regístrate en estas plataformas para monetizar tu música con anuncios:
+                ✅ Estas plataformas <strong>funcionan directo</strong> - solo pega el código y listo:
             </p>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
-                <!-- Google AdSense -->
-                <a href="https://www.google.com/adsense/start/" target="_blank" rel="noopener noreferrer" 
-                   style="display: block; padding: 15px; background: linear-gradient(135deg, #4285f4 0%, #34a853 100%); 
-                          color: white; text-decoration: none; border-radius: 8px; transition: transform 0.2s;"
-                   onmouseover="this.style.transform='translateY(-3px)'" 
-                   onmouseout="this.style.transform='translateY(0)'">
-                    <strong style="font-size: 16px;">📊 Google AdSense</strong><br>
-                    <small style="opacity: 0.9;">Alta monetización • Pagos confiables</small>
-                </a>
-
                 <!-- A-Ads -->
                 <a href="https://a-ads.com/start?partner=3239754" target="_blank" rel="noopener noreferrer"
                    style="display: block; padding: 15px; background: linear-gradient(135deg, #f7931a 0%, #ff9500 100%); 
@@ -650,7 +637,7 @@
                    onmouseover="this.style.transform='translateY(-3px)'" 
                    onmouseout="this.style.transform='translateY(0)'">
                     <strong style="font-size: 16px;">₿ A-Ads (Bitcoin)</strong><br>
-                    <small style="opacity: 0.9;">Pagos en crypto • Sin KYC</small>
+                    <small style="opacity: 0.9;">Pagos en crypto • Sin verificación</small>
                 </a>
 
                 <!-- Adsterra -->
@@ -663,14 +650,14 @@
                     <small style="opacity: 0.9;">Buenos CPMs • Pago mínimo $5</small>
                 </a>
 
-                <!-- Media.net -->
-                <a href="https://www.media.net/signup" target="_blank" rel="noopener noreferrer"
-                   style="display: block; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                <!-- PropellerAds -->
+                <a href="https://propellerads.com/#/auth/signup?placement=footer" target="_blank" rel="noopener noreferrer"
+                   style="display: block; padding: 15px; background: linear-gradient(135deg, #283c86 0%, #45a247 100%); 
                           color: white; text-decoration: none; border-radius: 8px; transition: transform 0.2s;"
                    onmouseover="this.style.transform='translateY(-3px)'" 
                    onmouseout="this.style.transform='translateY(0)'">
-                    <strong style="font-size: 16px;">💼 Media.net</strong><br>
-                    <small style="opacity: 0.9;">Alternativa a AdSense • Yahoo/Bing</small>
+                    <strong style="font-size: 16px;">✈️ PropellerAds</strong><br>
+                    <small style="opacity: 0.9;">Múltiples formatos • Setup rápido</small>
                 </a>
 
                 <!-- Coinzilla -->
@@ -692,30 +679,10 @@
                     <strong style="font-size: 16px;">💎 Bitmedia</strong><br>
                     <small style="opacity: 0.9;">Bitcoin ads • Audiencia crypto</small>
                 </a>
-
-                <!-- Ezoic -->
-                <a href="https://www.ezoic.com/signup/" target="_blank" rel="noopener noreferrer"
-                   style="display: block; padding: 15px; background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%); 
-                          color: white; text-decoration: none; border-radius: 8px; transition: transform 0.2s;"
-                   onmouseover="this.style.transform='translateY(-3px)'" 
-                   onmouseout="this.style.transform='translateY(0)'">
-                    <strong style="font-size: 16px;">📈 Ezoic</strong><br>
-                    <small style="opacity: 0.9;">IA optimizada • Alto rendimiento</small>
-                </a>
-
-                <!-- PropellerAds -->
-                <a href="https://propellerads.com/#/auth/signup?placement=footer" target="_blank" rel="noopener noreferrer"
-                   style="display: block; padding: 15px; background: linear-gradient(135deg, #283c86 0%, #45a247 100%); 
-                          color: white; text-decoration: none; border-radius: 8px; transition: transform 0.2s;"
-                   onmouseover="this.style.transform='translateY(-3px)'" 
-                   onmouseout="this.style.transform='translateY(0)'">
-                    <strong style="font-size: 16px;">✈️ PropellerAds</strong><br>
-                    <small style="opacity: 0.9;">Múltiples formatos • Pago rápido</small>
-                </a>
             </div>
 
-            <p style="text-align: center; margin-top: 25px; color: #666; font-size: 14px;">
-                ⚠️ <strong>Recuerda:</strong> Debes autorizar el dominio <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px;">omm2022.github.io</code> en la plataforma antes de usar tu código publicitario.
+            <p style="text-align: center; margin-top: 25px; color: #27ae60; font-size: 14px;">
+                ✅ <strong>Sin complicaciones:</strong> Estas plataformas NO requieren verificar dominios. Solo crea tu cuenta, genera el código y pégalo aquí.
             </p>
         </div>
 
