@@ -699,6 +699,156 @@
             }
         }
 
+        /* Estilos del Modal de Anuncios */
+        .ad-modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .ad-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ad-modal-content {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: slideDown 0.4s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            color: white;
+        }
+
+        .dark-mode .ad-modal-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .ad-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .ad-modal-header h3 {
+            margin: 0;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ad-modal-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+
+        .ad-modal-close:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+
+        .ad-modal-body {
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 20px;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .ad-modal-footer {
+            text-align: center;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .ad-modal-trigger {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #333;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .ad-modal-trigger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.6);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ad-modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+
+            .ad-modal-header h3 {
+                font-size: 1.2em;
+            }
+
+            .ad-modal-close {
+                width: 35px;
+                height: 35px;
+                font-size: 24px;
+            }
+
+            .ad-modal-body {
+                padding: 15px;
+                min-height: 120px;
+            }
+        }
+
         /* Móviles pequeños */
         @media (max-width: 480px) {
             h1 {
@@ -1424,6 +1574,30 @@
             console.log('Tema cambiado a:', isDark ? 'oscuro' : 'claro');
         }
 
+        // Funciones para controlar el modal de anuncios
+        function openAdModal() {
+            const modal = document.getElementById('adModal');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevenir scroll del body
+            }
+        }
+
+        function closeAdModal() {
+            const modal = document.getElementById('adModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = ''; // Restaurar scroll
+            }
+        }
+
+        function closeAdModalOnBackdrop(event) {
+            // Cerrar solo si se hace clic en el fondo oscuro, no en el contenido
+            if (event.target.id === 'adModal') {
+                closeAdModal();
+            }
+        }
+
         // Función para cambiar entre pestañas
         function switchTab(tabName) {
             // Ocultar todas las pestañas
@@ -1612,6 +1786,13 @@
                 </div>
             `;
             
+            // Botón para abrir modal de anuncios (solo si hay anuncios del usuario)
+            const adTriggerButton = cardData.adsCode ? `
+                <button class="ad-modal-trigger" onclick="openAdModal()">
+                    💰 Ver Mensaje Patrocinado
+                </button>
+            ` : '';
+            
             preview.innerHTML = `
                 <div class="music-card">
                     <h2>${escapeHtml(cardData.songName)}</h2>
@@ -1620,18 +1801,41 @@
                     
                     ${audioPlayer}
 
-                    <div class="ad-container">
-                        ${/* SECURITY NOTE: adsCode se inserta sin sanitizar para permitir scripts publicitarios.
-                           Esto es intencional pero permite XSS. Solo usar con códigos de plataformas confiables. */
-                         cardData.adsCode ? cardData.adsCode : '<div class="ad-placeholder">💰 Espacio publicitario - Agrega tu código para monetizar</div>'}
-                    </div>
+                    ${adTriggerButton}
                     
                     ${devAd}
                 </div>
+                
+                <!-- Modal de Anuncios -->
+                ${cardData.adsCode ? `
+                <div id="adModal" class="ad-modal" onclick="closeAdModalOnBackdrop(event)">
+                    <div class="ad-modal-content">
+                        <div class="ad-modal-header">
+                            <h3>💰 Mensaje Patrocinado</h3>
+                            <button class="ad-modal-close" onclick="closeAdModal()">&times;</button>
+                        </div>
+                        <div class="ad-modal-body">
+                            ${/* SECURITY NOTE: adsCode se inserta sin sanitizar para permitir scripts publicitarios.
+                               Esto es intencional pero permite XSS. Solo usar con códigos de plataformas confiables. */
+                             cardData.adsCode}
+                        </div>
+                        <div class="ad-modal-footer">
+                            Apoya al artista viendo este anuncio ❤️
+                        </div>
+                    </div>
+                </div>
+                ` : ''}
             `;
 
             // Solo asignar currentAudio si es un reproductor HTML5 nativo
             currentAudio = document.getElementById('audioPlayer');
+            
+            // Abrir modal automáticamente después de 3 segundos (opcional)
+            if (cardData.adsCode) {
+                setTimeout(() => {
+                    openAdModal();
+                }, 3000);
+            }
         }
 
         function generateAudioPlayer(url) {
@@ -1770,6 +1974,29 @@
             ${DEVELOPER_AD_CODE}
         </div>`;
 
+            // Botón para abrir modal de anuncios
+            const adTriggerButton = cardData.adsCode ? `
+        <button onclick="openAdModal()" style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: #333; border: none; padding: 12px 25px; border-radius: 25px; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 15px; width: 100%; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);">
+            💰 Ver Mensaje Patrocinado
+        </button>` : '';
+
+            // Modal de anuncios
+            const adModalCode = cardData.adsCode ? `
+        <div id="adModal" style="display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(10px); align-items: center; justify-content: center;" onclick="closeAdModalOnBackdrop(event)">
+            <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 30px; border-radius: 20px; max-width: 500px; width: 90%; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.5); color: white;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid rgba(255,255,255,0.3);">
+                    <h3 style="margin: 0; font-size: 1.5em;">💰 Mensaje Patrocinado</h3>
+                    <button onclick="closeAdModal()" style="background: rgba(255,255,255,0.2); border: none; color: white; font-size: 28px; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; padding: 0;">&times;</button>
+                </div>
+                <div style="background: rgba(255,255,255,0.15); border-radius: 12px; padding: 20px; min-height: 150px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; backdrop-filter: blur(5px);">
+                    ${cardData.adsCode}
+                </div>
+                <div style="text-align: center; font-size: 0.9em; opacity: 0.8;">
+                    Apoya al artista viendo este anuncio ❤️
+                </div>
+            </div>
+        </div>` : '';
+
             const viewCounterCode = `
         <div style="background: rgba(255,255,255,0.2); padding: 10px 15px; border-radius: 8px; text-align: center; margin-top: 10px; font-size: 0.9em;">
             👁️ Vistas: <strong id="embedViewCount" style="font-size: 1.2em; color: #FFD700;">0</strong>
@@ -1780,6 +2007,34 @@
             let views = parseInt(localStorage.getItem(key) || '0') + 1;
             localStorage.setItem(key, views);
             document.getElementById('embedViewCount').textContent = views;
+            
+            function openAdModal() {
+                const modal = document.getElementById('adModal');
+                if (modal) {
+                    modal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+            
+            function closeAdModal() {
+                const modal = document.getElementById('adModal');
+                if (modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            }
+            
+            function closeAdModalOnBackdrop(event) {
+                if (event.target.id === 'adModal') {
+                    closeAdModal();
+                }
+            }
+            
+            ${cardData.adsCode ? `
+            // Abrir modal automáticamente después de 3 segundos
+            setTimeout(() => {
+                openAdModal();
+            }, 3000);` : ''}
         <\/script>`;
             
             return `<!DOCTYPE html>
@@ -1794,7 +2049,6 @@
         h2 { margin: 0 0 10px 0; font-size: 1.8em; }
         .artist { opacity: 0.9; margin-bottom: 15px; font-size: 1.1em; }
         .description { margin-bottom: 20px; line-height: 1.5; }
-        .ad-container { background: rgba(255,255,255,0.2); border-radius: 8px; padding: 15px; text-align: center; min-height: 100px; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
@@ -1805,12 +2059,12 @@
         
         ${audioPlayerCode}
 
-        <div class="ad-container">
-            ${cardData.adsCode || '<div style="color: rgba(255,255,255,0.7); font-style: italic;">💰 Espacio publicitario</div>'}
-        </div>
+        ${adTriggerButton}
+        
         ${devAdCode}
         ${viewCounterCode}
     </div>
+    ${adModalCode}
 </body>
 </html>`;
         }
