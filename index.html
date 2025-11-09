@@ -863,7 +863,9 @@
                     ${audioPlayer}
 
                     <div class="ad-container">
-                        ${cardData.adsCode ? cardData.adsCode : '<div class="ad-placeholder">💰 Espacio publicitario - Agrega tu código para monetizar</div>'}
+                        ${/* SECURITY NOTE: adsCode se inserta sin sanitizar para permitir scripts publicitarios.
+                           Esto es intencional pero permite XSS. Solo usar con códigos de plataformas confiables. */
+                         cardData.adsCode ? cardData.adsCode : '<div class="ad-placeholder">💰 Espacio publicitario - Agrega tu código para monetizar</div>'}
                     </div>
                     
                     ${devAd}
@@ -916,7 +918,7 @@
             
             // Archivo MP3 directo (con controles nativos)
             return `
-                <audio id="audioPlayer" src="${url}" preload="metadata" controls style="width: 100%; max-width: 100%; margin-bottom: 20px; border-radius: 8px;">
+                <audio id="audioPlayer" src="${url}" preload="metadata" controls style="width: 100%; max-width: 100%; margin-bottom: 20px; border-radius: 8px;" onerror="this.parentElement.innerHTML='<div style=\\'color:red; padding:10px; text-align:center;\\'>⚠️ Error al cargar el audio. Verifica que la URL sea correcta.</div>'">
                     Tu navegador no soporta el elemento de audio.
                 </audio>
             `;
@@ -978,7 +980,14 @@
                 ads: cardData.adsCode || ''
             });
             
-            return window.location.href.split('?')[0] + '?view=card&' + params.toString();
+            const url = window.location.href.split('?')[0] + '?view=card&' + params.toString();
+            
+            // Advertencia si la URL es muy larga (navegadores tienen límites ~2000 caracteres)
+            if (url.length > 2000) {
+                console.warn('⚠️ La URL generada es muy larga (' + url.length + ' caracteres). Considera usar código publicitario más corto.');
+            }
+            
+            return url;
         }
 
         function getEmbedCode() {
@@ -1005,14 +1014,14 @@
 
             const viewCounterCode = `
         <div style="background: rgba(255,255,255,0.2); padding: 10px 15px; border-radius: 8px; text-align: center; margin-top: 10px; font-size: 0.9em;">
-            👁️ Vistas: <strong id="viewCount" style="font-size: 1.2em; color: #FFD700;">0</strong>
+            👁️ Vistas: <strong id="embedViewCount" style="font-size: 1.2em; color: #FFD700;">0</strong>
         </div>
         <script>
             const cardId = new URLSearchParams(window.location.search).get('id') || 'preview';
             const key = 'views_' + cardId;
             let views = parseInt(localStorage.getItem(key) || '0') + 1;
             localStorage.setItem(key, views);
-            document.getElementById('viewCount').textContent = views;
+            document.getElementById('embedViewCount').textContent = views;
         <\/script>`;
             
             return `<!DOCTYPE html>
@@ -1114,7 +1123,7 @@
                 };
                 
                 // Ocultar formulario y mostrar tarjeta
-                document.getElementById('formSection').style.display = 'none';
+                document.getElementById('formSection').classList.add('hidden');
                 document.getElementById('previewSection').classList.remove('hidden');
                 
                 // Mostrar QR para que otros también puedan compartir
