@@ -1105,8 +1105,16 @@
                 </div>
 
                 <div class="form-group">
-                    <label>🔗 Enlace del Audio *</label>
-                    <input type="url" id="audioUrl" required placeholder="https://open.spotify.com/track/... o https://soundcloud.com/...">
+                    <label>🔗 Enlaces de Audio *</label>
+                    <div id="audioLinksContainer">
+                        <div class="audio-link-item" style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;">
+                            <input type="url" class="audioUrl" required placeholder="https://open.spotify.com/track/... o https://soundcloud.com/..." style="flex: 1;">
+                            <button type="button" class="remove-audio-btn" onclick="removeAudioLink(this)" style="display: none; background: #e74c3c; color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 18px;" title="Eliminar">✖️</button>
+                        </div>
+                    </div>
+                    <button type="button" onclick="addAudioLink()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; margin-top: 10px; width: 100%;">
+                        ➕ Agregar Otro Enlace de Audio
+                    </button>
                     <small style="color: #666; display: block; margin-top: 5px;">
                         ✅ Usa plataformas monetizadas: Anchor, Spotify, SoundCloud Premier, Spreaker, YouTube monetizado
                     </small>
@@ -1118,6 +1126,77 @@
                     <small style="color: #666; display: block; margin-top: 5px;">
                         💡 Enlace directo a tu foto de perfil (JPG, PNG, WEBP)
                     </small>
+                </div>
+
+                <h3 style="color: #667eea; margin: 25px 0 15px 0; font-size: 1.1em;">📋 Press Kit (Opcional)</h3>
+
+                <div class="form-group">
+                    <label>📖 Biografía Extendida</label>
+                    <textarea id="bioExtended" placeholder="Escribe una biografía profesional completa del artista o banda..." rows="5"></textarea>
+                    <small style="color: #666; display: block; margin-top: 5px;">
+                        💡 Incluye trayectoria, influencias, logros principales
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label>🎸 Género Musical</label>
+                    <input type="text" id="genre" placeholder="Ej: Pop, Rock, Hip-Hop, Electrónica, Reggaeton">
+                </div>
+
+                <div class="form-group">
+                    <label>📍 Ubicación</label>
+                    <input type="text" id="location" placeholder="Ej: Ciudad, País">
+                </div>
+
+                <div class="form-group">
+                    <label>📧 Email de Contacto</label>
+                    <input type="email" id="contactEmail" placeholder="contacto@tuartista.com">
+                </div>
+
+                <div class="form-group">
+                    <label>👤 Manager / Representante</label>
+                    <input type="text" id="manager" placeholder="Nombre del manager o agencia">
+                </div>
+
+                <div class="form-group">
+                    <label>📞 Teléfono de Contacto</label>
+                    <input type="tel" id="contactPhone" placeholder="+1 234 567 8900">
+                </div>
+
+                <div class="form-group">
+                    <label>🏆 Premios y Reconocimientos</label>
+                    <textarea id="awards" placeholder="Lista premios, certificaciones, logros destacados..." rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>📊 Estadísticas Destacadas</label>
+                    <textarea id="stats" placeholder="Ej: +10M streams, +500K seguidores, conciertos, colaboraciones..." rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>📰 Enlaces de Prensa/Entrevistas</label>
+                    <textarea id="pressLinks" placeholder="URLs de artículos, entrevistas, reviews (una por línea)" rows="3"></textarea>
+                    <small style="color: #666; display: block; margin-top: 5px;">
+                        💡 Una URL por línea
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label>🖼️ Fotos Promocionales (URLs)</label>
+                    <textarea id="promoPhotos" placeholder="URLs de fotos de alta calidad (una por línea)" rows="3"></textarea>
+                    <small style="color: #666; display: block; margin-top: 5px;">
+                        💡 Una URL por línea (JPG, PNG, WEBP)
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label>🎬 Video Promocional</label>
+                    <input type="url" id="promoVideo" placeholder="https://youtube.com/watch?v=... o https://vimeo.com/...">
+                </div>
+
+                <div class="form-group">
+                    <label>🌐 Sitio Web Oficial</label>
+                    <input type="url" id="website" placeholder="https://www.tuartista.com">
                 </div>
 
                 <h3 style="color: #667eea; margin: 25px 0 15px 0; font-size: 1.1em;">📱 Redes Sociales (Opcional)</h3>
@@ -2069,14 +2148,27 @@
                 songName: document.getElementById('songName').value,
                 artist: document.getElementById('artist').value,
                 description: document.getElementById('description').value,
-                audioUrl: document.getElementById('audioUrl').value,
+                audioUrls: getAudioUrls(), // Array de URLs
                 adsCode: '', // Ya no se usa, siempre vacío
                 profileImage: document.getElementById('profileImage').value,
                 facebook: document.getElementById('facebook').value,
                 twitter: document.getElementById('twitter').value,
                 instagram: document.getElementById('instagram').value,
                 tiktok: document.getElementById('tiktok').value,
-                youtube: document.getElementById('youtube').value
+                youtube: document.getElementById('youtube').value,
+                // Press Kit fields
+                bioExtended: document.getElementById('bioExtended').value,
+                genre: document.getElementById('genre').value,
+                location: document.getElementById('location').value,
+                contactEmail: document.getElementById('contactEmail').value,
+                manager: document.getElementById('manager').value,
+                contactPhone: document.getElementById('contactPhone').value,
+                awards: document.getElementById('awards').value,
+                stats: document.getElementById('stats').value,
+                pressLinks: document.getElementById('pressLinks').value,
+                promoPhotos: document.getElementById('promoPhotos').value,
+                promoVideo: document.getElementById('promoVideo').value,
+                website: document.getElementById('website').value
             };
 
             console.log('Datos de la tarjeta:', cardData); // Debug
@@ -2098,8 +2190,13 @@
         function generateCard() {
             const preview = document.getElementById('musicCardPreview');
             
-            // Detectar tipo de URL y generar reproductor apropiado
-            const audioPlayer = generateAudioPlayer(cardData.audioUrl);
+            // Generar reproductores para cada URL de audio
+            let audioPlayersHTML = '';
+            if (cardData.audioUrls && cardData.audioUrls.length > 0) {
+                audioPlayersHTML = cardData.audioUrls.map((url, index) => {
+                    return generateAudioPlayer(url);
+                }).join('');
+            }
             
             // Publicidad del desarrollador (solo si no está oculta)
             const devAd = HIDE_DEVELOPER_AD ? '' : `
@@ -2149,6 +2246,103 @@
                 </div>
             ` : '';
             
+            // Press Kit Section
+            let pressKitHTML = '';
+            const hasPressKit = cardData.bioExtended || cardData.genre || cardData.location || 
+                               cardData.contactEmail || cardData.manager || cardData.contactPhone ||
+                               cardData.awards || cardData.stats || cardData.pressLinks || 
+                               cardData.promoPhotos || cardData.promoVideo || cardData.website;
+            
+            if (hasPressKit) {
+                pressKitHTML = `
+                    <div style="background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-top: 30px;">
+                        <h3 style="color: #667eea; margin-bottom: 15px; text-align: center; font-size: 1.3em;">📋 Press Kit</h3>
+                        
+                        ${cardData.bioExtended ? `
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="color: #667eea; margin-bottom: 8px; font-size: 1em;">📖 Biografía</h4>
+                                <p style="color: #ddd; line-height: 1.6; white-space: pre-wrap;">${escapeHtml(cardData.bioExtended)}</p>
+                            </div>
+                        ` : ''}
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                            ${cardData.genre ? `
+                                <div>
+                                    <h4 style="color: #667eea; margin-bottom: 5px; font-size: 0.9em;">🎸 Género</h4>
+                                    <p style="color: #ddd;">${escapeHtml(cardData.genre)}</p>
+                                </div>
+                            ` : ''}
+                            
+                            ${cardData.location ? `
+                                <div>
+                                    <h4 style="color: #667eea; margin-bottom: 5px; font-size: 0.9em;">📍 Ubicación</h4>
+                                    <p style="color: #ddd;">${escapeHtml(cardData.location)}</p>
+                                </div>
+                            ` : ''}
+                            
+                            ${cardData.website ? `
+                                <div>
+                                    <h4 style="color: #667eea; margin-bottom: 5px; font-size: 0.9em;">🌐 Website</h4>
+                                    <a href="${escapeHtml(cardData.website)}" target="_blank" rel="noopener noreferrer" style="color: #667eea; text-decoration: none;">Visitar sitio oficial</a>
+                                </div>
+                            ` : ''}
+                        </div>
+                        
+                        ${cardData.awards ? `
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="color: #667eea; margin-bottom: 8px; font-size: 1em;">🏆 Premios y Reconocimientos</h4>
+                                <p style="color: #ddd; line-height: 1.6; white-space: pre-wrap;">${escapeHtml(cardData.awards)}</p>
+                            </div>
+                        ` : ''}
+                        
+                        ${cardData.stats ? `
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="color: #667eea; margin-bottom: 8px; font-size: 1em;">📊 Estadísticas</h4>
+                                <p style="color: #ddd; line-height: 1.6; white-space: pre-wrap;">${escapeHtml(cardData.stats)}</p>
+                            </div>
+                        ` : ''}
+                        
+                        ${cardData.promoVideo ? `
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="color: #667eea; margin-bottom: 8px; font-size: 1em;">🎬 Video Promocional</h4>
+                                ${generateVideoPlayer(cardData.promoVideo)}
+                            </div>
+                        ` : ''}
+                        
+                        ${cardData.pressLinks ? `
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="color: #667eea; margin-bottom: 8px; font-size: 1em;">📰 Prensa</h4>
+                                <div style="display: flex; flex-direction: column; gap: 8px;">
+                                    ${cardData.pressLinks.split('\n').filter(l => l.trim()).map(link => 
+                                        `<a href="${escapeHtml(link.trim())}" target="_blank" rel="noopener noreferrer" style="color: #667eea; text-decoration: none;">🔗 ${escapeHtml(link.trim())}</a>`
+                                    ).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        ${cardData.promoPhotos ? `
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="color: #667eea; margin-bottom: 8px; font-size: 1em;">🖼️ Fotos Promocionales</h4>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+                                    ${cardData.promoPhotos.split('\n').filter(p => p.trim()).map(photo => 
+                                        `<img src="${escapeHtml(photo.trim())}" alt="Foto promocional" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px;" onerror="this.style.display='none'">`
+                                    ).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        
+                        <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <h4 style="color: #667eea; margin-bottom: 10px; font-size: 1em;">📞 Contacto</h4>
+                            <div style="display: flex; flex-direction: column; gap: 8px; color: #ddd;">
+                                ${cardData.contactEmail ? `<div>📧 <a href="mailto:${escapeHtml(cardData.contactEmail)}" style="color: #667eea; text-decoration: none;">${escapeHtml(cardData.contactEmail)}</a></div>` : ''}
+                                ${cardData.contactPhone ? `<div>📞 ${escapeHtml(cardData.contactPhone)}</div>` : ''}
+                                ${cardData.manager ? `<div>👤 Manager: ${escapeHtml(cardData.manager)}</div>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
             // Botón para abrir modal de anuncios (solo si hay anuncios del usuario)
             const adTriggerButton = cardData.adsCode ? `
                 <button class="ad-modal-trigger" onclick="openAdModal()">
@@ -2165,7 +2359,9 @@
                     
                     ${socialLinksHTML}
                     
-                    ${audioPlayer}
+                    ${audioPlayersHTML}
+                    
+                    ${pressKitHTML}
 
                     ${adTriggerButton}
                     
@@ -2252,6 +2448,46 @@
             `;
         }
 
+        function generateVideoPlayer(url) {
+            // YouTube
+            if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                const videoId = extractYouTubeId(url);
+                return `
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 12px;">
+                        <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px;"
+                            src="https://www.youtube.com/embed/${videoId}" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                `;
+            }
+            
+            // Vimeo
+            if (url.includes('vimeo.com')) {
+                const vimeoId = url.split('/').pop().split('?')[0];
+                return `
+                    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 12px;">
+                        <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px;"
+                            src="https://player.vimeo.com/video/${vimeoId}" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                `;
+            }
+            
+            // Video MP4 directo
+            return `
+                <video src="${escapeHtml(url)}" controls style="width: 100%; max-width: 100%; border-radius: 12px;" 
+                    onerror="this.parentElement.innerHTML='<div style=\\'color:red; padding:10px; text-align:center;\\'>⚠️ Error al cargar el video.</div>'">
+                    Tu navegador no soporta el elemento de video.
+                </video>
+            `;
+        }
+
         function extractSpotifyId(url) {
             // Extraer ID de Spotify de URLs como:
             // https://open.spotify.com/track/XXXXX
@@ -2299,26 +2535,43 @@
             // Generar ID único para esta tarjeta
             const cardId = Date.now().toString(36) + Math.random().toString(36).substr(2);
             
-            const params = new URLSearchParams({
+            // Crear objeto compacto con todos los datos
+            const compactData = {
                 id: cardId,
                 s: cardData.songName,
                 a: cardData.artist,
                 d: cardData.description || '',
-                u: cardData.audioUrl,
-                ads: cardData.adsCode || '',
+                au: cardData.audioUrls || [], // Array de URLs de audio
                 pi: cardData.profileImage || '',
                 fb: cardData.facebook || '',
                 tw: cardData.twitter || '',
                 ig: cardData.instagram || '',
                 tk: cardData.tiktok || '',
-                yt: cardData.youtube || ''
-            });
+                yt: cardData.youtube || '',
+                // Press Kit
+                bio: cardData.bioExtended || '',
+                gen: cardData.genre || '',
+                loc: cardData.location || '',
+                cem: cardData.contactEmail || '',
+                mgr: cardData.manager || '',
+                tel: cardData.contactPhone || '',
+                awd: cardData.awards || '',
+                st: cardData.stats || '',
+                prl: cardData.pressLinks || '',
+                pph: cardData.promoPhotos || '',
+                pvid: cardData.promoVideo || '',
+                web: cardData.website || ''
+            };
             
-            const url = window.location.href.split('?')[0] + '?view=card&' + params.toString();
+            // Codificar en Base64 para URLs más cortas
+            const jsonStr = JSON.stringify(compactData);
+            const base64Data = btoa(encodeURIComponent(jsonStr));
+            
+            const url = window.location.href.split('?')[0] + '?view=card&data=' + base64Data;
             
             // Advertencia si la URL es muy larga (navegadores tienen límites ~2000 caracteres)
             if (url.length > 2000) {
-                console.warn('⚠️ La URL generada es muy larga (' + url.length + ' caracteres). Considera usar URLs más cortas o menos redes sociales.');
+                console.warn('⚠️ La URL generada es muy larga (' + url.length + ' caracteres). Considera reducir la cantidad de información en el Press Kit.');
             }
             
             return url;
@@ -2488,6 +2741,49 @@
             return text.replace(/[&<>"']/g, m => map[m]);
         }
 
+        // Funciones para manejar múltiples enlaces de audio
+        function addAudioLink() {
+            const container = document.getElementById('audioLinksContainer');
+            const newItem = document.createElement('div');
+            newItem.className = 'audio-link-item';
+            newItem.style.cssText = 'display: flex; gap: 10px; margin-bottom: 10px; align-items: center;';
+            newItem.innerHTML = `
+                <input type="url" class="audioUrl" placeholder="https://open.spotify.com/track/... o https://soundcloud.com/..." style="flex: 1;">
+                <button type="button" class="remove-audio-btn" onclick="removeAudioLink(this)" style="background: #e74c3c; color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 18px;" title="Eliminar">✖️</button>
+            `;
+            container.appendChild(newItem);
+            updateRemoveButtons();
+        }
+
+        function removeAudioLink(button) {
+            const item = button.closest('.audio-link-item');
+            item.remove();
+            updateRemoveButtons();
+        }
+
+        function updateRemoveButtons() {
+            const items = document.querySelectorAll('.audio-link-item');
+            items.forEach((item, index) => {
+                const removeBtn = item.querySelector('.remove-audio-btn');
+                if (items.length > 1) {
+                    removeBtn.style.display = 'block';
+                } else {
+                    removeBtn.style.display = 'none';
+                }
+            });
+        }
+
+        function getAudioUrls() {
+            const inputs = document.querySelectorAll('.audioUrl');
+            const urls = [];
+            inputs.forEach(input => {
+                if (input.value.trim()) {
+                    urls.push(input.value.trim());
+                }
+            });
+            return urls;
+        }
+
         function showSuccess() {
             const msg = document.getElementById('successMessage');
             msg.classList.remove('hidden');
@@ -2498,19 +2794,96 @@
         window.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
             if (params.get('view') === 'card') {
-                cardData = {
-                    songName: params.get('s') || 'Sin título',
-                    artist: params.get('a') || 'Artista desconocido',
-                    description: params.get('d') || '',
-                    audioUrl: params.get('u') || '',
-                    adsCode: params.get('ads') || '',
-                    profileImage: params.get('pi') || '',
-                    facebook: params.get('fb') || '',
-                    twitter: params.get('tw') || '',
-                    instagram: params.get('ig') || '',
-                    tiktok: params.get('tk') || '',
-                    youtube: params.get('yt') || ''
-                };
+                // Intentar cargar desde formato nuevo (Base64)
+                const base64Data = params.get('data');
+                
+                if (base64Data) {
+                    try {
+                        const jsonStr = decodeURIComponent(atob(base64Data));
+                        const data = JSON.parse(jsonStr);
+                        
+                        cardData = {
+                            songName: data.s || 'Sin título',
+                            artist: data.a || 'Artista desconocido',
+                            description: data.d || '',
+                            audioUrls: data.au || [],
+                            adsCode: '',
+                            profileImage: data.pi || '',
+                            facebook: data.fb || '',
+                            twitter: data.tw || '',
+                            instagram: data.ig || '',
+                            tiktok: data.tk || '',
+                            youtube: data.yt || '',
+                            // Press Kit
+                            bioExtended: data.bio || '',
+                            genre: data.gen || '',
+                            location: data.loc || '',
+                            contactEmail: data.cem || '',
+                            manager: data.mgr || '',
+                            contactPhone: data.tel || '',
+                            awards: data.awd || '',
+                            stats: data.st || '',
+                            pressLinks: data.prl || '',
+                            promoPhotos: data.pph || '',
+                            promoVideo: data.pvid || '',
+                            website: data.web || ''
+                        };
+                    } catch (error) {
+                        console.error('Error al decodificar datos de la tarjeta:', error);
+                        cardData = {
+                            songName: 'Error al cargar',
+                            artist: 'Desconocido',
+                            description: '',
+                            audioUrls: [],
+                            adsCode: '',
+                            profileImage: '',
+                            facebook: '',
+                            twitter: '',
+                            instagram: '',
+                            tiktok: '',
+                            youtube: '',
+                            bioExtended: '',
+                            genre: '',
+                            location: '',
+                            contactEmail: '',
+                            manager: '',
+                            contactPhone: '',
+                            awards: '',
+                            stats: '',
+                            pressLinks: '',
+                            promoPhotos: '',
+                            promoVideo: '',
+                            website: ''
+                        };
+                    }
+                } else {
+                    // Formato antiguo (para compatibilidad)
+                    cardData = {
+                        songName: params.get('s') || 'Sin título',
+                        artist: params.get('a') || 'Artista desconocido',
+                        description: params.get('d') || '',
+                        audioUrls: params.get('u') ? [params.get('u')] : [],
+                        adsCode: '',
+                        profileImage: params.get('pi') || '',
+                        facebook: params.get('fb') || '',
+                        twitter: params.get('tw') || '',
+                        instagram: params.get('ig') || '',
+                        tiktok: params.get('tk') || '',
+                        youtube: params.get('yt') || '',
+                        bioExtended: '',
+                        genre: '',
+                        location: '',
+                        contactEmail: '',
+                        manager: '',
+                        contactPhone: '',
+                        awards: '',
+                        stats: '',
+                        pressLinks: '',
+                        promoPhotos: '',
+                        promoVideo: '',
+                        website: ''
+                    };
+                }
                 
                 // Ocultar formulario y mostrar tarjeta
                 document.getElementById('formSection').classList.add('hidden');
