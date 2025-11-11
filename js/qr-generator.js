@@ -5,6 +5,12 @@
 
 function generateQR() {
     const qrcodeContainer = document.getElementById('qrcode');
+    
+    if (!qrcodeContainer) {
+        console.error('❌ Elemento #qrcode no encontrado en el DOM');
+        return;
+    }
+    
     qrcodeContainer.innerHTML = ''; // Limpiar QR anterior
     
     // Obtener la URL generada de la tarjeta
