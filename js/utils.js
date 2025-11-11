@@ -21,39 +21,52 @@ function showSuccess() {
 }
 
 function shareTwitter() {
-    const cardUrl = document.getElementById('shareUrl').value;
+    const cardUrl = generateCardUrl();
     const text = `🎵 ¡Escucha mi música! ${cardData.songName} - ${cardData.artist}`;
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(cardUrl)}`;
     window.open(twitterUrl, '_blank', 'width=600,height=400');
 }
 
 function shareFacebook() {
-    const cardUrl = document.getElementById('shareUrl').value;
+    const cardUrl = generateCardUrl();
     const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(cardUrl)}`;
     window.open(facebookUrl, '_blank', 'width=600,height=400');
 }
 
 function shareWhatsApp() {
-    const cardUrl = document.getElementById('shareUrl').value;
+    const cardUrl = generateCardUrl();
     const text = `🎵 ¡Escucha mi música! ${cardData.songName} - ${cardData.artist}\n${cardUrl}`;
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
     window.open(whatsappUrl, '_blank');
 }
 
 function copyShareLink() {
-    const shareUrlInput = document.getElementById('shareUrl');
-    shareUrlInput.select();
-    shareUrlInput.setSelectionRange(0, 99999); // Para móviles
+    const cardUrl = generateCardUrl();
     
-    navigator.clipboard.writeText(shareUrlInput.value).then(() => {
-        const originalText = event.target.textContent;
-        event.target.textContent = '✓ Copiado';
-        setTimeout(() => {
-            event.target.textContent = originalText;
-        }, 2000);
+    navigator.clipboard.writeText(cardUrl).then(() => {
+        showSuccess('🔗 ¡Link copiado al portapapeles!');
     }).catch(err => {
         console.error('Error al copiar:', err);
-        document.execCommand('copy'); // Fallback para navegadores antiguos
-        alert('URL copiada al portapapeles');
+        alert('URL copiada: ' + cardUrl);
     });
+}
+
+function reset() {
+    // Ocultar vista previa y mostrar formulario
+    document.getElementById('previewSection').classList.add('hidden');
+    document.getElementById('formSection').classList.remove('hidden');
+    
+    // Limpiar formulario
+    document.getElementById('songForm').reset();
+    
+    // Limpiar datos
+    cardData = null;
+    
+    // Detener audio si está reproduciendo
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio = null;
+    }
+    
+    console.log('🔄 Formulario reiniciado');
 }
