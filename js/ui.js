@@ -10,7 +10,7 @@ function toggleTheme() {
     document.querySelector('.theme-toggle').textContent = isDark ? '☀️' : '🌙';
 }
 
-function switchTab(tabName) {
+function switchTab(tabName, buttonElement) {
     // Ocultar todos los contenidos
     document.querySelectorAll('.tab-content').forEach(content => {
         content.classList.remove('active');
@@ -21,9 +21,18 @@ function switchTab(tabName) {
         button.classList.remove('active');
     });
     
-    // Activar la pestaña seleccionada
-    document.getElementById(tabName).classList.add('active');
-    event.target.classList.add('active');
+    // Activar la pestaña seleccionada (soporta ID con o sin sufijo '-tab')
+    const tab = document.getElementById(tabName) || document.getElementById(tabName + '-tab');
+    if (!tab) {
+        console.warn('⚠️ Pestaña no encontrada:', tabName);
+        return;
+    }
+    tab.classList.add('active');
+    
+    // Marcar el botón como activo si fue pasado
+    if (buttonElement && buttonElement.classList) {
+        buttonElement.classList.add('active');
+    }
 }
 
 function openAdModal() {
