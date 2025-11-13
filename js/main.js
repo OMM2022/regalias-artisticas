@@ -185,7 +185,7 @@ function loadCardFromUrl() {
                 
                 // Ocultar formulario y mostrar tarjeta
                 document.getElementById('formSection').classList.add('hidden');
-                document.getElementById('cardResult').classList.remove('hidden');
+                document.getElementById('previewSection').classList.remove('hidden');
                 
             } catch (error) {
                 console.error('Error al decodificar datos:', error);

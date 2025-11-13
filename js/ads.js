@@ -5,12 +5,13 @@
 
 // Mostrar modal de anuncios después de 3 segundos en la vista de tarjeta
 function showAdModalAfterDelay() {
-    if (document.getElementById('cardResult').classList.contains('hidden')) {
+    const previewSection = document.getElementById('previewSection');
+    if (!previewSection || previewSection.classList.contains('hidden')) {
         return; // No mostrar si no hay tarjeta visible
     }
     
     setTimeout(() => {
-        if (!document.getElementById('cardResult').classList.contains('hidden')) {
+        if (!previewSection.classList.contains('hidden')) {
             openAdModal();
         }
     }, 3000);
